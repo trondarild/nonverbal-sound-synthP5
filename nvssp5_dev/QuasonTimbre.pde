@@ -1,5 +1,6 @@
 import com.jsyn.unitgen.SawtoothOscillatorBL;
 import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.TriangleOscillator;
 import com.jsyn.unitgen.PinkNoise;
 class QuasonTimbre {
     /** Synth based on description in 
@@ -23,6 +24,7 @@ class QuasonTimbre {
     PassThrough center;
     UnitOscillator saw; // sawtooth
     UnitOscillator sin;
+    UnitOscillator tri;
     PassThrough mixer;
     SpectralFilter filter;
     LineOut lineOut;
@@ -50,6 +52,7 @@ class QuasonTimbre {
 
         //synth.add(center = new PassThrough());
         synth.add(sin = new SineOscillator());
+        synth.add(tri = new TriangleOscillator());
         synth.add(saw = new SawtoothOscillatorBL());
         synth.add(pinknoise = new PinkNoise());
         synth.add(mixer = new PassThrough());
@@ -62,7 +65,8 @@ class QuasonTimbre {
 
         //center.output.connect(saw.frequency);
         sin.output.connect(mixer.input);
-        saw.output.connect(mixer.input);
+        tri.output.connect(mixer.input);
+        //saw.output.connect(mixer.input);
         pinknoise.output.connect(mixer.input);
         //mixer.output.connect(filter.input);
         mixer.output.connect(0, lineOut.input, 0);
@@ -100,10 +104,12 @@ class QuasonTimbre {
 
     void tick() {
         sin.frequency.set(f0);
+        tri.frequency.set(f0);
         saw.frequency.set(f0);
         // TODO use lookup tables with gain functions 
         // from timbre here
         sin.amplitude.set(lookup(timbre, sine_lt) * ampl);
+        tri.amplitude.set(lookup(timbre, saw_lt) * ampl);
         saw.amplitude.set(lookup(timbre, saw_lt) * ampl);
         pinknoise.amplitude.set(lookup(timbre, noise_lt) * ampl);
         // try {
