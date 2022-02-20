@@ -47,6 +47,8 @@ class QuasonTimbre {
     }
 
     void init() {
+        noise_lt = multiply(0.1, noise_lt);
+
         synth = JSyn.createSynthesizer();
         synth.setRealTime(true);
 

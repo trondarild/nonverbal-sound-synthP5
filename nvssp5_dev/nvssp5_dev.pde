@@ -5,6 +5,7 @@ import processing.sound.*;
 AudioSample sample;
 
 QuasonTimbre qt;
+float noiseval = 0.1;
 void setup() {
   size(640, 360);
   background(255);
@@ -20,7 +21,8 @@ void setup() {
 }      
 
 void draw(){
-  qt.frequency(mouseY);
+  noiseval += 0.025;
+  qt.frequency(mouseY + 100* noise(noiseval));
   qt.timbre(map( mouseX, 0, 640, 0, 1));
 
   qt.tick();
