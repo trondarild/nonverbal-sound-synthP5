@@ -6,6 +6,7 @@ AudioSample sample;
 
 QuasonTimbre qt;
 float noiseval = 0.1;
+float ampl = 0.3;
 void setup() {
   size(640, 360);
   background(255);
@@ -23,6 +24,7 @@ void setup() {
 void draw(){
   noiseval += 0.025;
   //qt.frequency(mouseY + 0.1* noise(noiseval));
+  qt.amplitude(mousePressed ? ampl : 0);
   qt.frequency(map(mouseY, 0, 360, qt.notes[0], qt.notes[qt.notes.length-1]));
   qt.timbre(map( mouseX, 0, 640, 0, 1));
 
